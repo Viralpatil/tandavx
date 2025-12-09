@@ -471,46 +471,122 @@ const AboutScreen = ({ setScreen, openContact }) => (
 const ContactModal = ({ isVisible, closeContact }) => {
   if (!isVisible) return null;
 
+  const handleInquirySubmit = (e) => {
+    e.preventDefault();
+    
+    // Get customer data
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const phone = e.target.phone ? e.target.phone.value : 'Not provided';
+    const inquiryType = e.target.inquiry.value;
+    const message = e.target.message.value;
+    
+    // WHATSAPP MESSAGE TO YOU (Primary - Instant)
+    const whatsappMessage = `🆕 *NEW TANDAVX INQUIRY!*\n\n` +
+      `👤 *Customer:* ${name}\n` +
+      `📧 *Email:* ${email}\n` +
+      `📱 *Phone:* ${phone}\n` +
+      `🎯 *Type:* ${inquiryType}\n` +
+      `💬 *Project:* ${message}\n\n` +
+      `⚡ Reply NOW to close deal!`;
+    
+    // YOUR WHATSAPP NUMBER HERE 👇
+    const yourWhatsAppNumber = "447407024220"; // CHANGE THIS!
+    
+    const whatsappUrl = `https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+    
+    // EMAIL TO YOU (Backup)
+    const emailSubject = `🆕 New TANDAVX Inquiry - ${name} (${inquiryType})`;
+    const emailBody = `New customer inquiry received:\n\n` +
+      `Name: ${name}\n` +
+      `Email: ${email}\n` +
+      `Phone: ${phone}\n` +
+      `Inquiry Type: ${inquiryType}\n` +
+      `Project Details:\n${message}\n\n` +
+      `-- TANDAVX Concierge`;
+    
+    // YOUR EMAIL HERE 👇
+    const yourEmail = "viralpatil59@gmail.com"; // CHANGE THIS!
+    
+    const mailtoUrl = `mailto:${yourEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    
+    // OPEN BOTH (WhatsApp + Email)
+    window.open(whatsappUrl, '_blank');
+    window.location.href = mailtoUrl;
+    
+    // Customer confirmation
+    alert(`✅ Thank you ${name}!\n\nOur concierge will contact you within 24 hours.\n\n💼 Professional service guaranteed.`);
+    
+    // Reset form
+    e.target.reset();
+    closeContact();
+  };
+
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity duration-300">
       <div className="bg-white w-full max-w-lg p-12 relative shadow-2xl animate-fade-up">
         <button onClick={closeContact} className="absolute top-6 right-6 text-gray-400 hover:text-black transition">
           ✕
         </button>
-
-        <span className="text-[#C5A059] text-xs font-bold tracking-widest uppercase mb-2 block">Concierge</span>
-        <h3 className="text-3xl font-serif mb-8 text-gray-900">Request Access</h3>
-
-        <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert("Thank you. Our concierge will be in touch shortly."); closeContact(); }}>
+        
+        <div className="text-center mb-8">
+          <span className="text-[#C5A059] text-xs font-bold tracking-widest uppercase mb-2 block">Concierge Service</span>
+          <h3 className="text-3xl font-serif text-gray-900">Request Consultation</h3>
+        </div>
+        
+        <form className="space-y-6" onSubmit={handleInquirySubmit}>
           <div>
-            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Name</label>
-            <input type="text" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#C5A059] transition" placeholder="John Doe" />
+            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Full Name *</label>
+            <input required name="name" type="text" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#C5A059] transition-all" placeholder="John Doe" />
           </div>
+          
           <div>
-            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Email</label>
-            <input type="email" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#C5A059] transition" placeholder="john@company.com" />
+            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Email *</label>
+            <input required name="email" type="email" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#C5A059] transition-all" placeholder="john@company.com" />
           </div>
+          
           <div>
-            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Inquiry Type</label>
-            <select className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#C5A059] bg-transparent">
+            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Phone (Optional)</label>
+            <input name="phone" type="tel" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#C5A059] transition-all" placeholder="+44 7123 456 789" />
+          </div>
+          
+          <div>
+            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Service Required *</label>
+            <select required name="inquiry" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#C5A059] bg-transparent">
+              <option value="">Select service...</option>
+              <option>Mobile App Development</option>
+              <option>Website Development</option>
+              <option>ERP Solutions</option>
+              <option>Booking Systems</option>
+              <option>Restaurant Billing</option>
+              <option>Regulatory Affairs</option>
               <option>Corporate Partnership</option>
-              <option>Private Client (Retail)</option>
-              <option>Press & Media</option>
             </select>
           </div>
+          
           <div>
-            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Message</label>
-            <textarea rows="3" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#C5A059] transition resize-none" placeholder="How can we assist?"></textarea>
+            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Project Details *</label>
+            <textarea required name="message" rows="4" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#C5A059] transition-all resize-none" placeholder="Describe your project requirements..."></textarea>
           </div>
-
-          <button type="submit" className="w-full bg-black text-white py-4 text-xs font-bold tracking-widest uppercase hover:bg-gold-metallic transition duration-500 mt-4">
-            Submit Request
+          
+          <button type="submit" className="w-full bg-gradient-to-r from-[#C5A059] to-gold-metallic text-white py-4 text-sm font-bold tracking-widest uppercase hover:shadow-2xl hover:scale-105 transition-all duration-300">
+            <i className="fab fa-whatsapp mr-2"></i>
+            <i className="fas fa-envelope mr-2"></i>
+            Submit Inquiry
           </button>
         </form>
+        
+        <p className="text-xs text-gray-400 mt-6 text-center">
+          🔒 Secure | 📱 Instant WhatsApp | ✉️ Email Confirmation | Response: 24h
+        </p>
       </div>
     </div>
   );
 };
+
+
+
+
 
 // --- MAIN APP ---
 const App = () => {
