@@ -103,7 +103,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 async function generateScopeAPI(userQuery, setLoading) {
   setLoading(true);
   const systemPrompt = "You are a senior IT Project Manager for TANDAVX LTD. Your task is to take a brief business idea and generate a professional, structured project scope, key features, and high-level milestones. Format the response clearly using Markdown headings and lists. Be encouraging and focus on technical feasibility. Do not use quotes or backticks in your response. Begin with a professional salutation.";
-  const apiKey = "";
+  const apiKey = "AIzaSyATRJwy0m8VFl1guxR2gOMp60nQLQRabXQ";
   const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
   const payload = {
@@ -170,7 +170,7 @@ const Navbar = ({ screen, setScreen, openContact }) => (
       onClick={openContact}
       className="px-6 py-2 bg-black text-white text-xs font-bold tracking-widest uppercase hover:bg-gold-metallic transition-all duration-500 shadow-lg"
     >
-      Inquire
+      Contact Us
     </button>
   </nav>
 );
@@ -200,25 +200,32 @@ const LandingScreen = ({ setScreen, openContact }) => (
 
     <div className="text-center mb-16 z-10 px-6 max-w-4xl">
       <p className="text-[#C5A059] text-sm tracking-[0.3em] uppercase mb-4 animate-fade-up">Est. 2025</p>
+
+      <h3 className="text-2xl md:text-3xl lg:text-4xl font-medium mb-6 leading-tight text-gray-900 animate-fade-up delay-100">
+
+        WELCOME <span className="italic font-serif text-gold-metallic"></span>
+      </h3>
+      <h3 className="text-1xl md:text-1.5xl lg:text-2xl font-medium mb-6 leading-tight text-gray-900 animate-fade-up delay-100">
+
+        <span className="italic font-serif text-gold-metallic">TO</span>
+      </h3>
+
       <h1 className="text-6xl md:text-8xl font-medium mb-6 leading-tight text-gray-900 animate-fade-up delay-100">
         TANDAV <span className="italic font-serif text-gold-metallic">X</span>.
       </h1>
-     
-      <h3 className="text-6xl md:text-8xl font-medium mb-3 leading-tight text-gray-900 animate-fade-up delay-100">
-        Digital <span className="italic font-serif text-gold-metallic">Elegance</span>.
-      </h3>
+
       <p className="text-gray-500 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed animate-fade-up delay-200">
-        TANDAVX represents the intersection of high-performance technology and curated luxury lifestyle.
-      </p>
+        Where innovation meets lifestyle. Choose your destination.      </p>
     </div>
     
+
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl px-6 z-10">
       {[
-        { id: 'it', icon: 'fa-microchip', title: 'Tech Atelier', desc: 'Bespoke software engineering & cloud architecture.' },
-        { id: 'shop', icon: 'fa-gem', title: 'Curated Retail', desc: 'Exclusive goods for the modern connoisseur.' },
-        { id: 'about', icon: 'fa-landmark', title: 'The Firm', desc: 'Our philosophy, leadership, and vision.' }
+        { id: 'it', icon: 'fa-microchip', title: 'Our Services', desc: 'Bespoke software engineering & cloud architecture.' },
+        { id: 'shop', icon: 'fa-gem', title: 'Online Stores', desc: 'Exclusive goods for the modern connoisseur.' },
+        { id: 'about', icon: 'fa-landmark', title: 'About us', desc: 'Our philosophy, leadership, and vision.' }
       ].map((card, idx) => (
-        <div 
+        <div
           key={card.id}
           onClick={() => setScreen(card.id)}
           className={`bg-white p-10 border border-gray-100 shadow-xl cursor-pointer group relative overflow-hidden hover-lift animate-fade-up`}
@@ -226,13 +233,13 @@ const LandingScreen = ({ setScreen, openContact }) => (
         >
           {/* Hover Gradient Overlay */}
           <div className="absolute inset-0 bg-gold-metallic opacity-0 group-hover:opacity-10 transition duration-700"></div>
-          
+
           <div className="text-[#C5A059] text-4xl mb-6 transform group-hover:-translate-y-2 transition duration-500">
             <i className={`fa-solid ${card.icon}`}></i>
           </div>
           <h2 className="text-2xl font-serif mb-3 text-gray-900">{card.title}</h2>
           <p className="text-gray-500 text-sm leading-relaxed mb-8">{card.desc}</p>
-          
+
           <div className="flex items-center text-xs font-bold tracking-widest uppercase text-gray-400 group-hover:text-[#C5A059] transition">
             Explore <span className="ml-2 transform group-hover:translate-x-2 transition duration-300">→</span>
           </div>
@@ -269,53 +276,67 @@ const ITServiceScreen = ({ setScreen }) => {
         <div className="hidden md:block w-32 h-1 bg-[#C5A059] mb-4"></div>
       </div>
 
-      {/* AI Tool */}
-      <div className="bg-white p-8 md:p-12 shadow-2xl border border-gray-100 relative mb-24 animate-fade-up delay-100">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gold-metallic"></div>
-        <div className="grid md:grid-cols-2 gap-12">
-          <div>
-            <h3 className="text-3xl font-serif mb-4 text-gray-900">Project Architect AI</h3>
-            <p className="text-gray-500 mb-8 leading-relaxed">
-              Leverage our proprietary Gemini-powered engine to structure your vision. Input a concept, and receive a preliminary technical roadmap instantly.
-            </p>
-            <div className="relative">
-              <textarea
-                rows="4"
-                placeholder="Describe your vision (e.g., A luxury real estate platform with VR tours...)"
-                value={projectIdea}
-                onChange={(e) => setProjectIdea(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-200 p-4 text-gray-800 focus:outline-none focus:border-[#C5A059] focus:ring-1 focus:ring-[#C5A059] transition"
-                disabled={isLoading}
-              />
-              <div className="mt-4 flex justify-end">
-                <button
-                  onClick={handleGenerateScope}
-                  className="bg-gold-metallic text-white px-8 py-3 text-sm font-bold tracking-widest uppercase hover:shadow-lg transition transform hover:-translate-y-1"
-                  disabled={isLoading}
-                >
-                  {isLoading ? 'Architecting...' : 'Generate Blueprint'}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gray-50 border border-gray-100 p-6 min-h-[300px] flex flex-col relative overflow-hidden">
-            {(!scopeOutput && !isLoading) && (
-              <div className="flex-1 flex flex-col items-center justify-center text-gray-300 opacity-50">
-                <i className="fa-solid fa-compass-drafting text-6xl mb-4"></i>
-                <span className="uppercase tracking-widest text-sm">Awaiting Input</span>
-              </div>
+     {/* AI Tool - WORKING VERSION */}
+<div className="bg-white p-8 md:p-12 shadow-2xl border border-gray-100 relative mb-24 animate-fade-up delay-100">
+  <div className="absolute top-0 left-0 w-full h-1 bg-gold-metallic"></div>
+  <div className="grid md:grid-cols-2 gap-12">
+    
+    {/* Input Section */}
+    <div>
+      <h3 className="text-3xl font-serif mb-4 text-gray-900">Project Architect AI</h3>
+      <p className="text-gray-500 mb-8 leading-relaxed">
+        Leverage our proprietary Gemini-powered engine to structure your vision. Input a concept, and receive a preliminary technical roadmap instantly.
+      </p>
+      
+      <div className="relative">
+        <textarea 
+          rows="4" 
+          placeholder="Describe your vision (e.g., 'A real-time inventory app for small shops' or 'An AI-powered recipe generator website')" 
+          value={projectIdea}
+          onChange={(e) => setProjectIdea(e.target.value)}
+          className="w-full bg-gray-50 border border-gray-200 p-4 text-gray-800 focus:outline-none focus:border-[#C5A059] focus:ring-1 focus:ring-[#C5A059]/20 transition-all resize-none"
+          disabled={isLoading}
+        />
+        <div className="mt-4 flex justify-end">
+          <button 
+            onClick={handleGenerateScope} 
+            disabled={!projectIdea.trim() || isLoading}
+            className="bg-gradient-to-r from-[#C5A059] to-[#BF953F] text-white px-8 py-3 text-sm font-bold tracking-widest uppercase hover:shadow-lg hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform"
+          >
+            {isLoading ? (
+              <>
+                <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                Architecting...
+              </>
+            ) : (
+              '✨ Generate Blueprint'
             )}
-            {isLoading && (
-              <div className="flex-1 flex flex-col items-center justify-center text-[#C5A059]">
-                <i className="fa-solid fa-circle-notch fa-spin text-4xl mb-4"></i>
-                <span className="uppercase tracking-widest text-xs animate-pulse">Consulting Neural Network...</span>
-              </div>
-            )}
-            {scopeOutput && <ScopeOutputRenderer markdown={scopeOutput} />}
-          </div>
+          </button>
         </div>
       </div>
+    </div>
+    
+    {/* Output Section */}
+    <div className="bg-gradient-to-br from-gray-50 to-white border border-gray-100 p-6 min-h-[300px] rounded-xl flex flex-col relative overflow-hidden">
+      {(!scopeOutput && !isLoading) ? (
+        <div className="flex-1 flex flex-col items-center justify-center text-gray-400">
+          <i className="fa-solid fa-compass-drafting text-6xl mb-4 opacity-50"></i>
+          <span className="uppercase tracking-widest text-sm font-medium">Enter project idea above</span>
+        </div>
+      ) : isLoading ? (
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <i className="fa-solid fa-brain text-5xl text-[#C5A059] mb-4 animate-pulse"></i>
+          <div className="text-[#C5A059] text-sm uppercase tracking-widest animate-pulse">Consulting Neural Network...</div>
+        </div>
+      ) : (
+        <div className="flex-1 overflow-y-auto">
+          <ScopeOutputRenderer markdown={scopeOutput} />
+        </div>
+      )}
+    </div>
+  </div>
+</div>
+
 
       {/* Service Columns */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -425,7 +446,7 @@ const AboutScreen = ({ setScreen, openContact }) => (
         <button onClick={() => setScreen('landing')} className="text-gray-400 hover:text-[#C5A059] transition mb-6 text-sm tracking-widest uppercase">
           ← Return Home
         </button>
-        <h1 className="text-5xl md:text-7xl text-gray-900 mb-2">The <span className="italic font-serif text-gold-metallic">Firm</span></h1>
+        <h1 className="text-5xl md:text-7xl text-gray-900 mb-2">About <span className="italic font-serif text-gold-metallic">Us</span></h1>
       </div>
     </div>
 
@@ -450,10 +471,13 @@ const AboutScreen = ({ setScreen, openContact }) => (
           </div>
         </div>
       </div>
+      
+
+
       <div className="relative h-[500px] bg-gray-100 flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-30"></div>
         {/* Decorative monogram */}
-        <span className="text-[200px] font-serif text-[#C5A059] opacity-20">T</span>
+        <span className="text-[200px] font-serif text-[#C5A059] opacity-20">TX</span>
       </div>
     </div>
 
@@ -473,14 +497,14 @@ const ContactModal = ({ isVisible, closeContact }) => {
 
   const handleInquirySubmit = (e) => {
     e.preventDefault();
-    
+
     // Get customer data
     const name = e.target.name.value;
     const email = e.target.email.value;
     const phone = e.target.phone ? e.target.phone.value : 'Not provided';
     const inquiryType = e.target.inquiry.value;
     const message = e.target.message.value;
-    
+
     // WHATSAPP MESSAGE TO YOU (Primary - Instant)
     const whatsappMessage = `🆕 *NEW TANDAVX INQUIRY!*\n\n` +
       `👤 *Customer:* ${name}\n` +
@@ -489,12 +513,12 @@ const ContactModal = ({ isVisible, closeContact }) => {
       `🎯 *Type:* ${inquiryType}\n` +
       `💬 *Project:* ${message}\n\n` +
       `⚡ Reply NOW to close deal!`;
-    
+
     // YOUR WHATSAPP NUMBER HERE 👇
     const yourWhatsAppNumber = "447407024220"; // CHANGE THIS!
-    
+
     const whatsappUrl = `https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-    
+
     // EMAIL TO YOU (Backup)
     const emailSubject = `🆕 New TANDAVX Inquiry - ${name} (${inquiryType})`;
     const emailBody = `New customer inquiry received:\n\n` +
@@ -504,19 +528,19 @@ const ContactModal = ({ isVisible, closeContact }) => {
       `Inquiry Type: ${inquiryType}\n` +
       `Project Details:\n${message}\n\n` +
       `-- TANDAVX Concierge`;
-    
+
     // YOUR EMAIL HERE 👇
     const yourEmail = "viralpatil59@gmail.com"; // CHANGE THIS!
-    
+
     const mailtoUrl = `mailto:${yourEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-    
+
     // OPEN BOTH (WhatsApp + Email)
     window.open(whatsappUrl, '_blank');
     window.location.href = mailtoUrl;
-    
+
     // Customer confirmation
     alert(`✅ Thank you ${name}!\n\nOur concierge will contact you within 24 hours.\n\n💼 Professional service guaranteed.`);
-    
+
     // Reset form
     e.target.reset();
     closeContact();
@@ -528,28 +552,28 @@ const ContactModal = ({ isVisible, closeContact }) => {
         <button onClick={closeContact} className="absolute top-6 right-6 text-gray-400 hover:text-black transition">
           ✕
         </button>
-        
+
         <div className="text-center mb-8">
           <span className="text-[#C5A059] text-xs font-bold tracking-widest uppercase mb-2 block">Concierge Service</span>
           <h3 className="text-3xl font-serif text-gray-900">Request Consultation</h3>
         </div>
-        
+
         <form className="space-y-6" onSubmit={handleInquirySubmit}>
           <div>
             <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Full Name *</label>
             <input required name="name" type="text" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#C5A059] transition-all" placeholder="John Doe" />
           </div>
-          
+
           <div>
             <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Email *</label>
             <input required name="email" type="email" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#C5A059] transition-all" placeholder="john@company.com" />
           </div>
-          
+
           <div>
             <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Phone (Optional)</label>
             <input name="phone" type="tel" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#C5A059] transition-all" placeholder="+44 7123 456 789" />
           </div>
-          
+
           <div>
             <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Service Required *</label>
             <select required name="inquiry" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#C5A059] bg-transparent">
@@ -563,19 +587,19 @@ const ContactModal = ({ isVisible, closeContact }) => {
               <option>Corporate Partnership</option>
             </select>
           </div>
-          
+
           <div>
             <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Project Details *</label>
             <textarea required name="message" rows="4" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[#C5A059] transition-all resize-none" placeholder="Describe your project requirements..."></textarea>
           </div>
-          
+
           <button type="submit" className="w-full bg-gradient-to-r from-[#C5A059] to-gold-metallic text-white py-4 text-sm font-bold tracking-widest uppercase hover:shadow-2xl hover:scale-105 transition-all duration-300">
             <i className="fab fa-whatsapp mr-2"></i>
             <i className="fas fa-envelope mr-2"></i>
             Submit Inquiry
           </button>
         </form>
-        
+
         <p className="text-xs text-gray-400 mt-6 text-center">
           🔒 Secure | 📱 Instant WhatsApp | ✉️ Email Confirmation | Response: 24h
         </p>
